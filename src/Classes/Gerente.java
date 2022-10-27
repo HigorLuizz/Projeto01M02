@@ -1,12 +1,9 @@
 package Classes;
-
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.LinkedList;
 
 public class Gerente extends Colaborador{
     public LinkedList<Documento> listaDocumentos = new LinkedList<>();
-    private LinkedList<Documento> documentosArquivados = new LinkedList<>();
+    public LinkedList<Documento> documentosArquivados = new LinkedList<>();
 
     public Gerente() {
     }
@@ -20,21 +17,23 @@ public class Gerente extends Colaborador{
         documentosArquivados.addFirst(documento);
         listaDocumentos.removeLast();
     }
-    public void desarquivar(Float id, Funcionario funcionario){
+    public void desarquivar(Integer id, Funcionario funcionario){
         documentosArquivados.forEach(
                 documento -> {
                     if (documento.getID()==id){
                         documento.setEstado(true);
                         funcionario.cadastrar(documento);
                         documentosArquivados.remove(documento);
+                    }else{
+                        System.out.println("ID diferente");
                     }
                 }
         );
     }
-    public void desarquivar(Float id, Supervisor supervisor){
+    public void desarquivar(Integer id, Supervisor supervisor){
         documentosArquivados.forEach(
                 documento -> {
-                    if (documento.getID()==id){
+                    if (documento.getID().equals(id)){
                         documento.setEstado(true);
                         supervisor.listaDocumentos.addFirst(documento);
                         documentosArquivados.remove(documento);
@@ -51,7 +50,6 @@ public class Gerente extends Colaborador{
                         "ID do responsável: "+documento.getIDresponsavel()+"/ "+
                         "Link: "+documento.getLink()+"/ "+
                         "Ativo?: "+documento.getEstado())
-
         );
     }
     public void listarDocumentosArquivados(){
@@ -62,7 +60,6 @@ public class Gerente extends Colaborador{
                         "ID do responsável: "+documento.getIDresponsavel()+"/ "+
                         "Link: "+documento.getLink()+"/ "+
                         "Ativo?: "+documento.getEstado())
-
         );
     }
 }

@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Documento {
     Random r = new Random();
-    private Float ID = r.nextFloat();
+    private Integer ID = r.nextInt(10000);
     private Float IDresponsavel;
     private Float IDcriador;
     private String link;
@@ -18,11 +18,11 @@ public class Documento {
         this.link = link;
     }
 
-    public Float getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(Float ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
