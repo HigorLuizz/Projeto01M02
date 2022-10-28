@@ -1,16 +1,20 @@
 import Classes.*;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Scanner scannerFloat = new Scanner(System.in);
+        LocalDateTime agora = LocalDateTime.now();
 
         Scanner scannerString = new Scanner(System.in);
         Funcionario funcionario01 = new Funcionario();
         Supervisor supervisor01 = new Supervisor();
         Gerente gerente01 = new Gerente();
-        Documento doc = new Documento(funcionario01.getID(),funcionario01.getID(),"shauhsuahsuahas");
         do {
             System.out.println("Bem vindo ao DEVinDocs!!");
             System.out.println("Por favor, identifique-se, digite: \n" +
@@ -29,10 +33,15 @@ public class Main {
                     if(acaoFuncionario == 1){
                         System.out.println("Digite o link do documento:");
                         String link = scannerString.nextLine();
-                        Documento doc1 = new Documento(funcionario01.getID(),funcionario01.getID(),link);
+                        Date dataHoraAtual = new Date();
+                        String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
+                        String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+                        Documento doc1 = new Documento(data+' '+hora,funcionario01.getID(),funcionario01.getID(),link);
                         funcionario01.cadastrar(doc1);
-                    }else if(acaoFuncionario == 2){
+                    }else if(acaoFuncionario == 2 && funcionario01.listaDocumentos.size() != 0){
                         funcionario01.tramitar(supervisor01);
+                    }else if(acaoFuncionario == 2 && funcionario01.listaDocumentos.size() == 0){
+                        System.out.println("Não há documentos para enviar ao supervisor");
                     }else if(acaoFuncionario == 3){
                         funcionario01.listarDocumentos();
                         if (funcionario01.listaDocumentos.size() == 0){
@@ -45,9 +54,10 @@ public class Main {
                     System.out.println("O que deseja fazer?\n" +
                             "1 - Analisar primeiro documento da lista\n" +
                             "2 - Ver lista de documentos para analisar\n" +
-                            "3 - Sair");
+                            "3 - Ver lista de documentos pendentes de envio ao supervisor\n" +
+                            "4 - Sair");
                     Integer acaoSupervisor = scanner.nextInt();
-                    if(acaoSupervisor == 1){
+                    if(acaoSupervisor == 1 && supervisor01.listaDocumentos.size() != 0){
                         supervisor01.analisar();
                         System.out.println("1 - Aprovar\n" +
                                 "2 - Reprovar");
@@ -57,11 +67,15 @@ public class Main {
                         }else if(analise == 2){
                             supervisor01.recusar(funcionario01);
                         }
-                    }else if(acaoSupervisor == 2){
+                    }else if(acaoSupervisor == 1 && supervisor01.listaDocumentos.size() == 0){
+                        System.out.println("Não há documentos para analisar");
+                    } else if(acaoSupervisor == 2){
                         supervisor01.listarDocumentos();
                         if (supervisor01.listaDocumentos.size() == 0){
                             System.out.println("Não há documentos pendentes de de análise");
                         }
+                    }else if(acaoSupervisor == 3){
+                        supervisor01.listarDocumentosFuncionario(funcionario01);
                     }else {
                         break;
                     }
@@ -71,10 +85,15 @@ public class Main {
                             "2 - Ver lista de documentos para arquivar\n" +
                             "3 - Ver lista de documentos Arquivados\n" +
                             "4 - Desarquivar algum documento\n" +
-                            "5 - Sair");
+                            "5 - Ver lista de documentos pendentes de envio ao supervisor\n" +
+                            "6 - Ver lista de documentos pendentes de análise\n" +
+                            "7 - Ver lista de todos documentos cadastrados no sistema\n" +
+                            "8 - Sair");
                     Integer acaoGerente = scanner.nextInt();
-                    if(acaoGerente == 1){
+                    if(acaoGerente == 1 && gerente01.listaDocumentos.size() != 0){
                         gerente01.arquivar();
+                    }else if(acaoGerente == 1 && gerente01.listaDocumentos.size() == 0){
+                        System.out.println("Não há documentos para arquivar");
                     }else if(acaoGerente == 2){
                         gerente01.listarDocumentosParaArquivar();
                         if(gerente01.listaDocumentos.size() == 0){
@@ -85,11 +104,11 @@ public class Main {
                         if(gerente01.documentosArquivados.size() == 0){
                             System.out.println("Não há documentos arquivados");
                         }
-                    }else if(acaoGerente == 4){
+                    }else if(acaoGerente == 4 && gerente01.documentosArquivados.size() != 0){
                         System.out.println("Digite o ID do documento que quer desarquivar");
                         Integer id = scannerFloat.nextInt();
 
-                        System.out.println("Para quem quer enviar esse documento?" +
+                        System.out.println("Para quem quer enviar esse documento?\n" +
                                 "1 - Supervisor\n" +
                                 "2 - Funcionário");
                         Integer reenvio = scannerFloat.nextInt();
@@ -100,6 +119,20 @@ public class Main {
                             gerente01.desarquivar(id, funcionario01);
                         }
 
+                    }else if(acaoGerente == 4 && gerente01.documentosArquivados.size() == 0){
+                        System.out.println("Não há documentos arquivados");
+                    }else if(acaoGerente == 5){
+                        gerente01.listarDocumentosFuncionario(funcionario01);
+                        if(funcionario01.listaDocumentos.size() == 0){
+                            System.out.println("Não há documentos pendentes de envio ao supervisor");
+                        }
+                    }else if(acaoGerente == 6){
+                        gerente01.listarDocumentosSupervisor(supervisor01);
+                        if(supervisor01.listaDocumentos.size() == 0){
+                            System.out.println("Não há documentos pendentes de análise");
+                        }
+                    }else if(acaoGerente == 7){
+                        gerente01.listarTodosDocumentos(funcionario01, supervisor01);
                     }else {
                         break;
                     }

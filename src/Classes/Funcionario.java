@@ -1,8 +1,11 @@
 package Classes;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 
 public class Funcionario extends Colaborador{
+
     public LinkedList<Documento> listaDocumentos = new LinkedList<>();
     public Funcionario() {
     }
@@ -15,14 +18,18 @@ public class Funcionario extends Colaborador{
     }
     public void tramitar(Supervisor supervisor){
         Documento documento = listaDocumentos.getLast();
-        System.out.println(documento);
+        Date dataHoraAtual = new Date();
+        String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
+        String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+        documento.setData(data+' '+hora);
         supervisor.listaDocumentos.addFirst(documento);
         listaDocumentos.removeLast();
     }
     public void listarDocumentos(){
         System.out.println("Lista de documentos Cadastrados por funcionário");
         listaDocumentos.forEach(
-                documento -> System.out.println("ID: "+documento.getID()+"/ "+
+                documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
+                        "ID: "+documento.getID()+"/ "+
                         "ID do criador: "+documento.getIDcriador()+"/ "+
                         "ID do responsável: "+documento.getIDresponsavel()+"/ "+
                         "Link: "+documento.getLink()+"/ "+
