@@ -15,8 +15,7 @@ public class Pessoa {
 
     }
 
-    public Pessoa(Float ID, String nome, String sobrenome, String dataDeNascimento, String CPF, String nomeRua, String numeroRua) {
-        this.ID = ID;
+    public Pessoa(String nome, String sobrenome, String dataDeNascimento, String CPF, String nomeRua, String numeroRua) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.dataDeNascimento = dataDeNascimento;

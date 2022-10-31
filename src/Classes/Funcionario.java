@@ -10,11 +10,15 @@ public class Funcionario extends Colaborador{
     public Funcionario() {
     }
 
-    public Funcionario(Float ID, String nome, String sobrenome, String dataDeNascimento, String CPF, String nomeRua, String numeroRua) {
-        super(ID, nome, sobrenome, dataDeNascimento, CPF, nomeRua, numeroRua);
+    public Funcionario(String nome, String cargo, String sobrenome, String dataDeNascimento, String CPF, String nomeRua, String numeroRua) {
+        super(nome, cargo, sobrenome, dataDeNascimento, CPF, nomeRua, numeroRua);
     }
+
     public void cadastrar(Documento documento){
         this.listaDocumentos.addFirst(documento);
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Documento cadastrado com sucesso!");
+        System.out.println("----------------------------------------------------------------");
     }
     public void tramitar(Supervisor supervisor){
         Documento documento = listaDocumentos.getLast();
@@ -24,8 +28,12 @@ public class Funcionario extends Colaborador{
         documento.setData(data+' '+hora);
         supervisor.listaDocumentos.addFirst(documento);
         listaDocumentos.removeLast();
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Documento enviado ao supervisor para análise!");
+        System.out.println("----------------------------------------------------------------");
     }
     public void listarDocumentos(){
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Lista de documentos Cadastrados por funcionário");
         listaDocumentos.forEach(
                 documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
@@ -36,5 +44,6 @@ public class Funcionario extends Colaborador{
                         "Ativo?: "+documento.getEstado())
 
         );
+        System.out.println("----------------------------------------------------------------");
     }
 }

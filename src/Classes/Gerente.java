@@ -7,13 +7,15 @@ import java.util.Objects;
 public class Gerente extends Colaborador{
     public LinkedList<Documento> listaDocumentos = new LinkedList<>();
     public LinkedList<Documento> documentosArquivados = new LinkedList<>();
+    public LinkedList<Colaborador> todosColaboradores = new LinkedList<>();
 
     public Gerente() {
     }
 
-    public Gerente(Float ID, String nome, String sobrenome, String dataDeNascimento, String CPF, String nomeRua, String numeroRua) {
-        super(ID, nome, sobrenome, dataDeNascimento, CPF, nomeRua, numeroRua);
+    public Gerente(String nome, String cargo, String sobrenome, String dataDeNascimento, String CPF, String nomeRua, String numeroRua) {
+        super(nome, cargo, sobrenome, dataDeNascimento, CPF, nomeRua, numeroRua);
     }
+
     public void arquivar(){
         Documento documento = listaDocumentos.getLast();
         Date dataHoraAtual = new Date();
@@ -23,6 +25,9 @@ public class Gerente extends Colaborador{
         documento.setEstado(false);
         documentosArquivados.addFirst(documento);
         listaDocumentos.removeLast();
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Documento arquivado com sucesso!");
+        System.out.println("----------------------------------------------------------------");
     }
     public void desarquivar(Integer id, Funcionario funcionario){
         for(Documento documento: documentosArquivados){
@@ -34,8 +39,9 @@ public class Gerente extends Colaborador{
                 documento.setEstado(true);
                 funcionario.cadastrar(documento);
                 documentosArquivados.remove(documento);
-            }else{
-                System.out.println("ID diferente");
+                System.out.println("----------------------------------------------------------------");
+                System.out.println("Documento desarquivado com sucesso!");
+                System.out.println("----------------------------------------------------------------");
             }
         }
     }
@@ -49,12 +55,14 @@ public class Gerente extends Colaborador{
                 documento.setEstado(true);
                 supervisor.listaDocumentos.addFirst(documento);
                 documentosArquivados.remove(documento);
-            }else{
-                System.out.println("ID diferente");
+                System.out.println("----------------------------------------------------------------");
+                System.out.println("Documento desarquivado com sucesso!");
+                System.out.println("----------------------------------------------------------------");
             }
         }
     }
     public void listarDocumentosParaArquivar(){
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Lista de documentos para arquivar");
         listaDocumentos.forEach(
                 documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
@@ -64,8 +72,10 @@ public class Gerente extends Colaborador{
                         "Link: "+documento.getLink()+"/ "+
                         "Ativo?: "+documento.getEstado())
         );
+        System.out.println("----------------------------------------------------------------");
     }
     public void listarDocumentosArquivados(){
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Lista de documentos arquivados");
         documentosArquivados.forEach(
                 documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
@@ -75,8 +85,11 @@ public class Gerente extends Colaborador{
                         "Link: "+documento.getLink()+"/ "+
                         "Ativo?: "+documento.getEstado())
         );
+        System.out.println("Total de documentos arquivados: "+documentosArquivados.size());
+        System.out.println("----------------------------------------------------------------");
     }
     public void listarDocumentosFuncionario(Funcionario funcionario){
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Lista de documentos pendentes de envio ao supervisor");
         funcionario.listaDocumentos.forEach(
                 documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
@@ -87,8 +100,10 @@ public class Gerente extends Colaborador{
                         "Ativo?: "+documento.getEstado())
 
         );
+        System.out.println("----------------------------------------------------------------");
     }
     public void listarDocumentosSupervisor(Supervisor supervisor){
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Lista de documentos pendentes de análise");
         supervisor.listaDocumentos.forEach(
                 documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
@@ -99,8 +114,10 @@ public class Gerente extends Colaborador{
                         "Ativo?: "+documento.getEstado())
 
         );
+        System.out.println("----------------------------------------------------------------");
     }
     public void listarTodosDocumentos(Funcionario funcionario, Supervisor supervisor){
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Lista de todos documentos cadastrados no sistema");
         listaDocumentos.forEach(
                 documento -> System.out.println("Data da última tramitação: "+documento.getData()+"/ "+
@@ -136,5 +153,21 @@ public class Gerente extends Colaborador{
                         "Ativo?: "+documento.getEstado())
 
         );
+        System.out.println("----------------------------------------------------------------");
+
+    }
+    public void listarColaboradores(){
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Lista de todos os colaboradores: ");
+        todosColaboradores.forEach(
+                colaborador -> System.out.println("Nome completo: "+colaborador.getNome()+" "+colaborador.getSobrenome()+"/ "+
+                        "Cargo: "+colaborador.getCargo()+"/ "+
+                        "ID: "+colaborador.getID()+"/ "+
+                        "Data de nascimento: "+colaborador.getDataDeNascimento()+"/ "+
+                        "Cpf: "+colaborador.getCPF()+"/ "+
+                        "Endereço: "+colaborador.getNomeRua()+" nº "+colaborador.getNumeroRua())
+
+        );
+        System.out.println("----------------------------------------------------------------");
     }
 }

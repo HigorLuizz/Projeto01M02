@@ -9,12 +9,16 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Scanner scannerFloat = new Scanner(System.in);
-        LocalDateTime agora = LocalDateTime.now();
 
         Scanner scannerString = new Scanner(System.in);
-        Funcionario funcionario01 = new Funcionario();
-        Supervisor supervisor01 = new Supervisor();
-        Gerente gerente01 = new Gerente();
+        Funcionario funcionario01 = new Funcionario("João","Analista","de Jesus","20/09/1995","09785493109","Rua das Amelias","185");
+        Supervisor supervisor01 = new Supervisor("Nestor","Supervisor","Amaral","20/10/1982","09594648548","Rua dos Macacos","159");
+        Gerente gerente01 = new Gerente("Leonardo","Gerente","Batista","15/09/1975","09289484544","Rua das Abelhas","123");
+        gerente01.todosColaboradores.add(funcionario01);
+        gerente01.todosColaboradores.add(supervisor01);
+        gerente01.todosColaboradores.add(gerente01);
+
+
         do {
             System.out.println("Bem vindo ao DEVinDocs!!");
             System.out.println("Por favor, identifique-se, digite: \n" +
@@ -88,7 +92,8 @@ public class Main {
                             "5 - Ver lista de documentos pendentes de envio ao supervisor\n" +
                             "6 - Ver lista de documentos pendentes de análise\n" +
                             "7 - Ver lista de todos documentos cadastrados no sistema\n" +
-                            "8 - Sair");
+                            "8 - Listar todos Colaboradores\n" +
+                            "9 - Sair");
                     Integer acaoGerente = scanner.nextInt();
                     if(acaoGerente == 1 && gerente01.listaDocumentos.size() != 0){
                         gerente01.arquivar();
@@ -105,6 +110,7 @@ public class Main {
                             System.out.println("Não há documentos arquivados");
                         }
                     }else if(acaoGerente == 4 && gerente01.documentosArquivados.size() != 0){
+                        gerente01.listarDocumentosArquivados();
                         System.out.println("Digite o ID do documento que quer desarquivar");
                         Integer id = scannerFloat.nextInt();
 
@@ -133,6 +139,8 @@ public class Main {
                         }
                     }else if(acaoGerente == 7){
                         gerente01.listarTodosDocumentos(funcionario01, supervisor01);
+                    }else if(acaoGerente == 8){
+                        gerente01.listarColaboradores();
                     }else {
                         break;
                     }
